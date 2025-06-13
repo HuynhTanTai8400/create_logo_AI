@@ -4,7 +4,7 @@ from PIL import Image
 
 # Mô hình và prompt
 model_list = "runwayml/stable-diffusion-v1-5"
-prompt = "logo, street food stall, 'Quán Ngon', **cartoon, illustration, flat design**. Cute smiling food cart character, holding a bowl of noodles. **Vibrant, warm colors, red, yellow, orange accents**. Solid light blue background. Simple, eye-catching. --ar 1:1 --v 5.2"
+# prompt = "logo, street food stall, 'Quán Ngon', **cartoon, illustration, flat design**. Cute smiling food cart character, holding a bowl of noodles. **Vibrant, warm colors, red, yellow, orange accents**. Solid light blue background. Simple, eye-catching. --ar 1:1 --v 5.2"
 
 # Dinh nghia tham so
 rand_seed = torch.manual_seed(0)

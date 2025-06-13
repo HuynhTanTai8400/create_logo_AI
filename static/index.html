@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Logo Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+        
+        header {
+            background: #4e54c8;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.8;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+        
+        @media (min-width: 768px) {
+            .content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        input, textarea {
+            padding: 14px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #4e54c8;
+            outline: none;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .examples {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .examples ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .examples li {
+            margin-bottom: 5px;
+        }
+        
+        button {
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .output-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .image-container {
+            width: 100%;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #dee2e6;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        #resultImage {
+            max-width: 100%;
+            display: none;
+        }
+        
+        .placeholder-text {
+            color: #6c757d;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #4e54c8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            color: #dc3545;
+            background: #fff0f0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            margin-top: 15px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cute Logo Generator</h1>
+            <p class="subtitle">Create adorable logos with AI</p>
+        </header>
+        
+        <div class="content">
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="prompt">Describe your logo:</label>
+                    <textarea 
+                        id="prompt" 
+                        placeholder="Example: cute cat cafe logo with a smiling cat holding a coffee cup, pastel colors"
+                    >cute restaurant logo</textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="steps">Quality level:</label>
+                    <input 
+                        type="range" 
+                        id="steps" 
+                        min="20" 
+                        max="50" 
+                        value="30"
+                    >
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Faster</span>
+                        <span id="stepsValue">30 steps</span>
+                        <span>Better</span>
+                    </div>
+                </div>
+                
+                <div class="examples">
+                    <p><strong>Try these examples:</strong></p>
+                    <ul>
+                        <li>"adorable bakery logo with a smiling cupcake"</li>
+                        <li>"kitten pet shop logo, watercolor style"</li>
+                        <li>"cute robot tech startup logo"</li>
+                    </ul>
+                </div>
+                
+                <button id="generateBtn">✨ Generate Logo</button>
+            </div>
+            
+            <div class="output-section">
+                <div class="image-container">
+                    <p class="placeholder-text">Your generated logo will appear here</p>
+                    <img id="resultImage" alt="Generated logo">
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your cute logo... (15-45 seconds)</p>
+                </div>
+                
+                <div class="error" id="error"></div>
+                
+                <a id="downloadBtn" download="cute-logo.png" style="display: none;">
+                    <button>💾 Download Logo</button>
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Powered by Stable Diffusion AI | Generated logos may require additional polishing</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const promptInput = document.getElementById('prompt');
+            const stepsInput = document.getElementById('steps');
+            const stepsValue = document.getElementById('stepsValue');
+            const generateBtn = document.getElementById('generateBtn');
+            const resultImage = document.getElementById('resultImage');
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('error');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const placeholder = document.querySelector('.placeholder-text');
+            
+            // Update steps value display
+            stepsInput.addEventListener('input', () => {
+                stepsValue.textContent = `${stepsInput.value} steps`;
+            });
+            
+            // Generate logo
+            generateBtn.addEventListener('click', async () => {
+                const prompt = promptInput.value.trim();
+                
+                if (!prompt) {
+                    showError('Please describe your logo');
+                    return;
+                }
+                
+                // UI states
+                errorDiv.style.display = 'none';
+                resultImage.style.display = 'none';
+                placeholder.style.display = 'none';
+                loading.style.display = 'block';
+                generateBtn.disabled = true;
+                
+                try {
+                    const response = await fetch('/generate-logo', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            prompt: prompt,
+                            steps: parseInt(stepsInput.value)
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const error = await response.json();
+                        throw new Error(error.error || 'Failed to generate logo');
+                    }
+                    
+                    const data = await response.json();
+                    resultImage.src = data.image;
+                    resultImage.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    
+                    // Set up download
+                    downloadBtn.href = data.image;
+                    downloadBtn.style.display = 'block';
+                    
+                } catch (error) {
+                    showError(error.message);
+                } finally {
+                    loading.style.display = 'none';
+                    generateBtn.disabled = false;
+                }
+            });
+            
+            function showError(message) {
+                errorDiv.textContent = `Error: ${message}`;
+                errorDiv.style.display = 'block';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

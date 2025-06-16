@@ -1,4 +1,7 @@
-torch
+Flask
 diffusers
-transformers
-
+torch
+Pillow
+accelerate 
+transformers 
+safetensors

@@ -10,24 +10,6 @@ app = Flask(__name__)
 # Dinh nghia tham so
 IMAGE_PATH = "static/output.jpg"
 
-# Khoi tao Pipeline
-def create_pipeline(model_name= model_list[0]):
-    # Neu may co GPU cuda (se nhanh hon)
-    if torch.cuda.is_available():
-        print('using GPU')
-        pipeline = StableDiffusionPipeline.from_pretrained(
-            model_name,
-            torch_dtype = torch.float32,
-            use_safetensors = True
-        ).to("cuda")
-    else:
-        print("Using CPU")
-        pipeline = StableDiffusionPipeline.from_pretrained(
-            model_name,
-            torch_dtype = torch.float32,
-            use_safetensors = True
-             )
-    return pipeline
 
 pipeline = create_pipeline()
 @app.route("/", method = ["GET","POST"])
@@ -45,4 +27,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

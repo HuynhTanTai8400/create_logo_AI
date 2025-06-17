@@ -12,19 +12,7 @@ app = Flask(__name__)
 # IMAGE_DIR = "static" # Không cần thiết nếu bạn đã dùng IMAGE_PATH
 # IMAGE_FILENAME = "output.jpg" # Sẽ tạo tên file động
 
-pipeline = None # Khởi tạo là None để load một lần duy nhất
-
-@app.before_request
-def initialize_pipeline():
-    """
-    Hàm này sẽ được chạy một lần trước yêu cầu đầu tiên
-    để đảm bảo pipeline được khởi tạo.
-    """
-    global pipeline
-    if pipeline is None:
-        print("Initializing AI pipeline...")
-        pipeline = create_pipeline()
-        print("AI pipeline initialized.")
+pipeline = create_pipeline()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -63,14 +51,7 @@ def index():
             # Bắt và in lỗi nếu có vấn đề trong quá trình tạo hoặc lưu ảnh
             print(f"Error during image generation or saving: {e}")
             return render_template('index.html', error_message=f"Đã xảy ra lỗi khi tạo logo: {e}. Vui lòng thử lại với prompt khác.")
-
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    # Trong môi trường production, bạn nên dùng Gunicorn hoặc uWSGI thay vì debug=True
-    app.run(host="0.0.0.0", port=port, debug=False)
-
-
+        
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     # Trong môi trường production, bạn nên dùng Gunicorn hoặc uWSGI thay vì debug=True

@@ -12,6 +12,7 @@
         button:hover { background-color: #0056b3; }
         img { max-width: 100%; height: auto; display: block; margin-top: 20px; border: 1px solid #eee; border-radius: 4px; }
         .message { color: gray; margin-top: 10px; }
+        .error { color: red; font-weight: bold; margin-top: 10px; } /* Thêm style cho thông báo lỗi */
     </style>
 </head>
 <body>
@@ -19,9 +20,13 @@
         <h1>AI Logo Generator</h1>
         <form method="POST">
             <label for="prompt">Nhập mô tả logo của bạn:</label><br>
-            <input type="text" id="prompt" name="promt" placeholder="ví dụ: lát bánh pizza hoạt hình, chữ 'Pizza Palace'" required><br>
+            <input type="text" id="prompt" name="prompt" placeholder="ví dụ: lát bánh pizza hoạt hình, chữ 'Pizza Palace'" required><br>
             <button type="submit">Tạo Logo</button>
         </form>
+
+        {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+        {% endif %}
 
         {% if image_url %}
             <p class="message">Logo của bạn đã được tạo:</p>

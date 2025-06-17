@@ -11,7 +11,7 @@ IMAGE_PATH = "static/output.jpg"
 
 pipeline = create_pipeline()
 
-@app.route("/", methods=["GET", "POST"]) # Sửa "method" thành "methods"
+@app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "GET":
         return render_template('index.html')

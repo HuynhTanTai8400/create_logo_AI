@@ -35,13 +35,13 @@ def create_pipeline(model_name=model_name_sd): # Sửa tham số mặc định
     # pipeline.scheduler = DPMSolverMultistepScheduler.from_config(pipeline.scheduler.config)
     return pipeline
 
-def text_2_img(prompt, pipeline): # Sửa "promt" thành "prompt"
+def text_2_img(prompt, pipeline): 
     images = pipeline(
-        prompt, # Sửa "promt" thành "prompt"
+        prompt, 
         guidance_scale = GUIDANCE_SCALE,
-        num_inference_steps = NUM_INFERENCE_STEPS, # Sửa thành num_inference_steps
+        num_inference_steps = NUM_INFERENCE_STEPS, 
         generator = rand_seed,
-        # num_images_per_request = 1, # Xóa tham số này vì nó không tồn tại
+        # num_images_per_request = 1, 
         height = HEIGHT,
         width = WIDTH,
     ).images

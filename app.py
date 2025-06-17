@@ -12,6 +12,8 @@ app = Flask(__name__)
 # IMAGE_DIR = "static" # Không cần thiết nếu bạn đã dùng IMAGE_PATH
 # IMAGE_FILENAME = "output.jpg" # Sẽ tạo tên file động
 
+
+
 pipeline = create_pipeline()
 
 @app.route("/", methods=["GET", "POST"])

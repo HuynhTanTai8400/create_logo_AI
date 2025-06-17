@@ -4,7 +4,7 @@ from PIL import Image
 
 # Mô hình và prompt
 # Sửa model_list thành biến đơn hoặc danh sách nếu có nhiều model
-model_name_sd = "runwayml/stable-diffusion-v1-5"
+model_name_sd = "nota-ai/bk-sdm-small"
 
 
 # Dinh nghia tham so

@@ -4,7 +4,7 @@ from PIL import Image
 
 # Mô hình và prompt
 # Sửa model_list thành biến đơn hoặc danh sách nếu có nhiều model
-model_name_sd = "segmind/tiny-sd"
+model_name_sd = "runwayml/stable-diffusion-v1-5"
 
 
 # Dinh nghia tham so
@@ -28,7 +28,7 @@ def create_pipeline(model_name=model_name_sd): # Sửa tham số mặc định
         print("Using CPU")
         pipeline = StableDiffusionPipeline.from_pretrained(
             model_name,
-            torch_dtype = torch.float16, # Giữ float32 cho CPU
+            torch_dtype = torch.float32, # Giữ float32 cho CPU
             use_safetensors = True
         )
     # Có thể thêm scheduler nếu muốn cải thiện chất lượng/tốc độ (ví dụ DPMSolverMultistepScheduler)

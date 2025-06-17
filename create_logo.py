@@ -3,52 +3,46 @@ import torch
 from PIL import Image
 
 # Mô hình và prompt
-model_list = "runwayml/stable-diffusion-v1-5"
-# prompt = "logo, street food stall, 'Quán Ngon', **cartoon, illustration, flat design**. Cute smiling food cart character, holding a bowl of noodles. **Vibrant, warm colors, red, yellow, orange accents**. Solid light blue background. Simple, eye-catching. --ar 1:1 --v 5.2"
+# Sửa model_list thành biến đơn hoặc danh sách nếu có nhiều model
+model_name_sd = "runwayml/stable-diffusion-v1-5"
+
 
 # Dinh nghia tham so
 rand_seed = torch.manual_seed(0)
-NUM_INFERENCE_STEP = 20
-GUIDANCE_SCALE = 0.75
+NUM_INFERENCE_STEPS = 20 # Sửa thành NUM_INFERENCE_STEPS (có 'S')
+GUIDANCE_SCALE = 7.5 # Điều chỉnh GUIDANCE_SCALE lên giá trị hợp lý hơn
 HEIGHT = 512
 WIDTH = 512
 
 
-
-def create_pipeline(model_name= model_list[0]):
+def create_pipeline(model_name=model_name_sd): # Sửa tham số mặc định
     # Neu may co GPU cuda (se nhanh hon)
     if torch.cuda.is_available():
-        print('using GPU')
+        print('Using GPU')
         pipeline = StableDiffusionPipeline.from_pretrained(
             model_name,
-            torch_dtype = torch.float32,
+            torch_dtype = torch.float16, # Nên dùng float16 cho GPU để tối ưu
             use_safetensors = True
         ).to("cuda")
     else:
         print("Using CPU")
         pipeline = StableDiffusionPipeline.from_pretrained(
             model_name,
-            torch_dtype = torch.float32,
+            torch_dtype = torch.float32, # Giữ float32 cho CPU
             use_safetensors = True
-             )
+        )
+    # Có thể thêm scheduler nếu muốn cải thiện chất lượng/tốc độ (ví dụ DPMSolverMultistepScheduler)
+    # pipeline.scheduler = DPMSolverMultistepScheduler.from_config(pipeline.scheduler.config)
     return pipeline
 
-def text_2_img(promt, pipeline):
+def text_2_img(prompt, pipeline): # Sửa "promt" thành "prompt"
     images = pipeline(
-        promt,
+        prompt, # Sửa "promt" thành "prompt"
         guidance_scale = GUIDANCE_SCALE,
-        num_inference_step = NUM_INFERENCE_STEP,
+        num_inference_steps = NUM_INFERENCE_STEPS, # Sửa thành num_inference_steps
         generator = rand_seed,
-        num_images_per_request =1,
+        # num_images_per_request = 1, # Xóa tham số này vì nó không tồn tại
         height = HEIGHT,
         width = WIDTH,
     ).images
     return images[0]
-
-
-
-
-
-
-
-

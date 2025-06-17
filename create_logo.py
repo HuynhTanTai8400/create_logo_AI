@@ -4,7 +4,7 @@ from PIL import Image
 
 # Mô hình và prompt
 # Sửa model_list thành biến đơn hoặc danh sách nếu có nhiều model
-model_name_sd = "CompVis/stable-diffusion-v1-4"
+model_name_sd = "stabilityai/stable-diffusion-xl-turbo"
 
 
 # Dinh nghia tham so
